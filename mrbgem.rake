@@ -10,10 +10,11 @@ MRuby::Gem::Specification.new('mruby-optparse') do |spec|
 
   spec.add_dependency 'mruby-catch-throw'
   spec.add_dependency 'mruby-env'
-  spec.add_dependency 'mruby-onig-regexp', github: 'ess/mruby-onig-regexp'
+  #spec.add_dependency 'mruby-onig-regexp', github: 'ess/mruby-onig-regexp'
   #spec.add_dependency 'mruby-regexp-pcre', github: 'iij/mruby-regexp-pcre'
-  #spec.add_dependency 'mruby-pure-regexp', github: 'h2so5/mruby-pure-regexp'
+  #spec.add_dependency 'mruby-pure-regexp', github: 'ess/mruby-pure-regexp'
   #spec.add_dependency 'mruby-onig-regexp', :github => 'hone/mruby-onig-regexp'
+  spec.add_dependency 'mruby-rust-regexp', github: 'ess/mruby-rust-regexp'
 
   spec.add_test_dependency 'mruby-mtest'
 end
