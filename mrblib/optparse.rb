@@ -650,7 +650,7 @@ class OptionParser
       (sopts+lopts).each do |opt|
         # "(-x -c -r)-l[left justify]" \
         if /^--\[no-\](.+)$/ =~ opt
-          o = $1
+          o = Regexp.last_match[1]
           yield("--#{o}", desc.join(""))
           yield("--no-#{o}", desc.join(""))
         else
@@ -1407,7 +1407,7 @@ _arguments -s -S \
       when *ArgumentStyle.keys
         style = notwice(ArgumentStyle[o], style, 'style')
       when /^--no-([^\[\]=\s]*)(.+)?/
-        q, a = $1, $2
+        q, a = Regexp.last_match[1], Regexp.last_match[2]
         o = notwice(a ? Object : TrueClass, klass, 'type')
         not_pattern, not_conv = search(:atype, o) unless not_style
         not_style = (not_style || default_style).guess(arg = a) if a
@@ -1417,7 +1417,7 @@ _arguments -s -S \
         long << 'no-' + (q = q.downcase)
         nolong << q
       when /^--\[no-\]([^\[\]=\s]*)(.+)?/
-        q, a = $1, $2
+        q, a = Regexp.last_match[1], Regexp.last_match[2]
         o = notwice(a ? Object : TrueClass, klass, 'type')
         if a
           default_style = default_style.guess(arg = a)
@@ -1429,7 +1429,7 @@ _arguments -s -S \
         not_style = Switch::NoArgument
         nolong << 'no-' + o
       when /^--([^\[\]=\s]*)(.+)?/
-        q, a = $1, $2
+        q, a = Regexp.last_match[1], Regexp.last_match[2]
         if a
           o = notwice(NilClass, klass, 'type')
           default_style = default_style.guess(arg = a)
@@ -1438,7 +1438,7 @@ _arguments -s -S \
         ldesc << "--#{q}"
         long << (o = q.downcase)
       when /^-(\[\^?\]?(?:[^\\\]]|\\.)*\])(.+)?/
-        q, a = $1, $2
+        q, a = Regexp.last_match[1], Regexp.last_match[2]
         o = notwice(Object, klass, 'type')
         if a
           default_style = default_style.guess(arg = a)
@@ -1447,7 +1447,7 @@ _arguments -s -S \
         sdesc << "-#{q}"
         short << Regexp.new(q)
       when /^-(.)(.+)?/
-        q, a = $1, $2
+        q, a = Regexp.last_match[1], Regexp.last_match[2]
         if a
           o = notwice(NilClass, klass, 'type')
           default_style = default_style.guess(arg = a)
@@ -1559,7 +1559,7 @@ _arguments -s -S \
         case arg
         # long option
         when /\A--([^=]*)(?:=(.*))?/m
-          opt, rest = $1, $2
+          opt, rest = Regexp.last_match[1], Regexp.last_match[2]
           begin
             sw, = complete(:long, opt, true)
           rescue ParseError => e
@@ -1575,7 +1575,7 @@ _arguments -s -S \
 
         # short option
         when /\A-(.)((=).*|.+)?/m
-          opt, has_arg, eq, val, rest = $1, $3, $3, $2, $2
+          opt, has_arg, eq, val, rest = Regexp.last_match[1], Regexp.last_match[3], Regexp.last_match[3], Regexp.last_match[2], Regexp.last_match[2]
           begin
             sw, = search(:short, opt)
             unless sw
